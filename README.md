@@ -139,6 +139,15 @@ npm run dev
 Важно после деплоя:
 - заменить `https://your-domain.com` на реальный домен в `index.html`, `public/robots.txt`, `public/sitemap.xml`.
 
+## Иконки сайта
+
+Добавлены тематические иконки в стиле Habit Tracker:
+- `public/favicon.svg`
+- `public/icon-192.svg`
+- `public/icon-512.svg`
+
+Они используются в favicon, PWA manifest и социальных превью.
+
 ## Планы развития
 
 - Категории пресетов и избранные шаблоны.
