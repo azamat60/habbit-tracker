@@ -6,6 +6,34 @@ import { SettingsView } from './ui/components/SettingsView';
 import { TodayView } from './ui/components/TodayView';
 import { Button } from './ui/components/common/Button';
 
+const SEO_BY_VIEW = {
+  today: {
+    title: 'Habit Tracker - Today Habits and Daily Check-ins',
+    description:
+      'Mark today habits in one click, stay consistent, and build routines without pressure.',
+  },
+  details: {
+    title: 'Habit Tracker - Habit Analytics, Streaks and Heatmap',
+    description:
+      'Review streak, best streak, completion rates and 30-day heatmap for each habit.',
+  },
+  settings: {
+    title: 'Habit Tracker - Backup, Restore and Preferences',
+    description:
+      'Manage habit tracker settings, export/import JSON backup, and configure your local-first workflow.',
+  },
+} as const;
+
+const upsertMeta = (selector: string, attr: 'name' | 'property', key: string, content: string) => {
+  let element = document.head.querySelector(selector) as HTMLMetaElement | null;
+  if (!element) {
+    element = document.createElement('meta');
+    element.setAttribute(attr, key);
+    document.head.appendChild(element);
+  }
+  element.setAttribute('content', content);
+};
+
 function App() {
   const view = useHabitStore((state) => state.view);
   const setView = useHabitStore((state) => state.setView);
@@ -16,6 +44,23 @@ function App() {
   useEffect(() => {
     document.documentElement.classList.toggle('dark', theme === 'dark');
   }, [theme]);
+
+  useEffect(() => {
+    const seo = SEO_BY_VIEW[view];
+    document.title = seo.title;
+
+    upsertMeta('meta[name="description"]', 'name', 'description', seo.description);
+    upsertMeta('meta[property="og:title"]', 'property', 'og:title', seo.title);
+    upsertMeta('meta[property="og:description"]', 'property', 'og:description', seo.description);
+    upsertMeta('meta[name="twitter:title"]', 'name', 'twitter:title', seo.title);
+    upsertMeta('meta[name="twitter:description"]', 'name', 'twitter:description', seo.description);
+    upsertMeta('meta[property="og:url"]', 'property', 'og:url', window.location.href);
+
+    const canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
+    if (canonical) {
+      canonical.href = window.location.href;
+    }
+  }, [view]);
 
   useEffect(() => {
     const isTypingTarget = (target: EventTarget | null): boolean => {

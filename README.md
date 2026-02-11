@@ -123,6 +123,22 @@ npm run dev
 - Нейтральный «anti-shame» UX: пропуски не акцентируются как «провал».
 - Чистая визуальная иерархия и адаптивная верстка для desktop/mobile.
 
+## SEO оптимизация
+
+В проект добавлен базовый SEO-набор для лучшей индексации:
+- `title`, `meta description`, `keywords`, `robots`, `author`;
+- Open Graph и Twitter Card мета-теги;
+- `canonical` ссылка;
+- `robots.txt`;
+- `sitemap.xml`;
+- `site.webmanifest`;
+- JSON-LD (`SoftwareApplication` schema).
+
+Также реализовано динамическое обновление `title/description/og` по текущему экрану приложения (`Today`, `Details`, `Settings`).
+
+Важно после деплоя:
+- заменить `https://your-domain.com` на реальный домен в `index.html`, `public/robots.txt`, `public/sitemap.xml`.
+
 ## Планы развития
 
 - Категории пресетов и избранные шаблоны.

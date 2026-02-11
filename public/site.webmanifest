@@ -1,0 +1,17 @@
+{
+  "name": "Habit Tracker",
+  "short_name": "HabitTracker",
+  "description": "Local-first habit tracker with streaks, heatmap and JSON backup.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#f8fafc",
+  "icons": [
+    {
+      "src": "/vite.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
