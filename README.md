@@ -1,48 +1,48 @@
 # Habit Tracker
 
-Локальный трекер привычек без бэкенда. Проект фокусируется на простом ежедневном использовании, мягком UX без давления и быстром восстановлении после перерывов.
+A local-first habit tracker without a backend. The project is focused on simple daily usage, low-pressure UX, and quick recovery after missed days.
 
-## Суть проекта
+## Project Idea
 
-`Habit Tracker` помогает формировать привычки с минимальным трением:
-- одна привычка = одно понятное действие;
-- отметка выполнения за день в 1 клик;
-- прогресс и стабильность важнее «идеальной» непрерывной серии;
-- приложение работает офлайн и хранит данные в браузере.
+`Habit Tracker` helps users build habits with minimal friction:
+- one habit = one clear action;
+- one-click daily completion;
+- consistency and stability matter more than a perfect streak;
+- offline-friendly with browser-based persistence.
 
-Подход: `LocalStorage-first`. Никаких API, регистраций и зависимостей от сервера.
+Approach: `LocalStorage-first`. No API, no auth, no server dependency.
 
-## Ключевые возможности
+## Core Features
 
-- Экран `Today` с активными/архивными привычками.
-- Toggle `Done / Not done` на текущую дату.
-- Быстрое создание привычек из готовых пресетов (частые и полезные шаблоны).
-- Создание/редактирование привычки:
-  - `Name`;
-  - `Schedule`: `Daily` или `Weekly` (выбранные дни);
-  - `Start date`;
-  - `Color`;
-  - `Note`.
-- Экран `Habit details`:
-  - `Current streak`;
-  - `Best streak`;
-  - completion rate за 7 и 30 дней;
-  - heatmap за 30 дней.
-- `Recovery mode`: кнопка `Restart streak` без удаления истории.
+- `Today` screen with active/archived habits.
+- `Done / Not done` toggle for the current day.
+- Fast creation from ready-to-use habit presets.
+- Create/edit habit:
+  - `Name`
+  - `Schedule`: `Daily` or `Weekly` (selected weekdays)
+  - `Start date`
+  - `Color`
+  - `Note`
+- `Habit details` screen:
+  - `Current streak`
+  - `Best streak`
+  - 7/30 day completion rate
+  - 30-day heatmap
+- `Recovery mode`: `Restart streak` without deleting history.
 - `Settings`:
-  - экспорт JSON;
-  - импорт JSON;
-  - reset данных;
-  - настройка начала недели.
-- Смена темы (`Light / Dark`) через верхний переключатель.
-- Горячие клавиши:
+  - JSON export
+  - JSON import
+  - data reset
+  - week-start preference
+- Theme switcher (`Light / Dark`) in the top bar.
+- Keyboard shortcuts:
   - `1` Today
   - `2` Habit details
   - `3` Settings
-  - `N` новая привычка (на экране Today)
-  - `Esc` закрыть модальное окно
+  - `N` new habit (on Today screen)
+  - `Esc` close modal
 
-## Технологии
+## Tech Stack
 
 - React 19
 - TypeScript
@@ -53,107 +53,109 @@
 - dayjs
 - Vitest
 
-## Архитектура
+## Architecture
 
-- `src/domain` — чистая бизнес-логика:
-  - расписание (`schedule`),
-  - streak,
-  - статистика,
-  - heatmap.
-- `src/storage` — localStorage-адаптер, versioning и миграции.
-- `src/state` — Zustand store, actions, селекторы состояния.
-- `src/ui` — экраны и компоненты интерфейса.
-  - `src/ui/components/common/Button.tsx` — единая кнопка с вариантами (`primary`, `ghost`, `tab`).
-  - `src/ui/components/common/Card.tsx` — базовая карточка с тонами (`default`, `soft`, `danger`).
-  - `src/ui/components/common/Panel.tsx` — общая обёртка экранов.
+- `src/domain` — pure business logic:
+  - schedule
+  - streak
+  - stats
+  - heatmap
+- `src/storage` — localStorage adapter, versioning, migrations
+- `src/state` — Zustand store, actions, state selectors
+- `src/ui` — screens and UI components
+  - `src/ui/components/common/Button.tsx` — shared button with variants (`primary`, `ghost`, `tab`)
+  - `src/ui/components/common/Card.tsx` — shared card with tones (`default`, `soft`, `danger`)
+  - `src/ui/components/common/Panel.tsx` — shared screen wrapper
 
-## Модель данных
+## Data Model
 
-Основные сущности:
+Main entities:
 - `Habit`
 - `Completion`
-- `settings` (включая тему)
+- `settings` (including theme)
 
-Хранение completion:
+Completion storage shape:
 - `completions: Record<habitId, Record<date, 1>>`
 
-Плюсы структуры:
-- быстрый доступ «привычка + дата»;
-- простые вычисления streak и completion rates;
-- удобная отрисовка heatmap.
+Why this shape works:
+- fast lookup by habit/date;
+- simple streak and completion-rate calculations;
+- easy heatmap rendering.
 
-## Хранение и миграции
+## Persistence and Migrations
 
-Данные сохраняются в `localStorage` с версией схемы.
-Текущая схема: `v2`.
+Data is stored in `localStorage` with schema versioning.
+Current schema: `v2`.
 
-Поддерживается миграция из старого формата в актуальный при загрузке.
+Older formats are migrated to the latest schema on load.
 
-## Быстрый старт
+## Quick Start
 
 ```bash
 npm install
 npm run dev
 ```
 
-Открыть в браузере адрес, который покажет Vite (обычно `http://localhost:5173`).
+Then open the URL printed by Vite (usually `http://localhost:5173`).
 
-## Скрипты
+## Scripts
 
-- `npm run dev` — запуск dev-сервера
-- `npm run lint` — проверка линтером
-- `npm run test` — unit-тесты
+- `npm run dev` — run dev server
+- `npm run lint` — run linter
+- `npm run test` — run unit tests
 - `npm run build` — typecheck + production build
 
-## Тестирование
+## Testing
 
-Покрыты ключевые доменные кейсы:
-- weekly schedule;
+Covered domain edge cases:
+- weekly schedule behavior;
 - startDate boundary;
-- streak calculations;
+- streak calculation;
 - restart streak logic.
 
-Файл тестов:
+Test file:
 - `src/domain/stats.test.ts`
 
-## Дизайн и UX
+## Design and UX
 
-- Светлая тема по умолчанию.
-- Поддержка тёмной темы через переключатель.
-- Нейтральный «anti-shame» UX: пропуски не акцентируются как «провал».
-- Чистая визуальная иерархия и адаптивная верстка для desktop/mobile.
+- Light theme by default.
+- Dark theme support via toggle.
+- Anti-shame UX: missed days are not highlighted as “failure”.
+- Clean visual hierarchy and responsive layout for desktop/mobile.
 
-## SEO оптимизация
+## SEO Optimization
 
-В проект добавлен базовый SEO-набор для лучшей индексации:
-- `title`, `meta description`, `keywords`, `robots`, `author`;
-- Open Graph и Twitter Card мета-теги;
-- `canonical` ссылка;
-- `robots.txt`;
-- `sitemap.xml`;
-- `site.webmanifest`;
-- JSON-LD (`SoftwareApplication` schema).
+The project includes a baseline SEO setup:
+- `title`, `meta description`, `keywords`, `robots`, `author`
+- Open Graph and Twitter Card tags
+- `canonical` link
+- `robots.txt`
+- `sitemap.xml`
+- `site.webmanifest`
+- JSON-LD (`SoftwareApplication` schema)
 
-Также реализовано динамическое обновление `title/description/og` по текущему экрану приложения (`Today`, `Details`, `Settings`).
+Dynamic `title/description/og` updates are also implemented for app views (`Today`, `Details`, `Settings`).
 
-Важно после деплоя:
-- заменить `https://your-domain.com` на реальный домен в `index.html`, `public/robots.txt`, `public/sitemap.xml`.
+After deployment, update `https://your-domain.com` with the real domain in:
+- `index.html`
+- `public/robots.txt`
+- `public/sitemap.xml`
 
-## Иконки сайта
+## Site Icons
 
-Добавлены тематические иконки в стиле Habit Tracker:
+The project includes themed Habit Tracker icons:
 - `public/favicon.svg`
 - `public/icon-192.svg`
 - `public/icon-512.svg`
 
-Они используются в favicon, PWA manifest и социальных превью.
+They are used for favicon, PWA manifest, and social previews.
 
-## Планы развития
+## Future Improvements
 
-- Категории пресетов и избранные шаблоны.
-- Доступность (a11y) и расширенные keyboard flows.
-- Дополнительные графики стабильности.
-- PWA-режим с явной offline-индикацией.
+- Preset categories and favorite templates.
+- Accessibility improvements (a11y) and extended keyboard flows.
+- Additional consistency charts.
+- Clear offline status for PWA mode.
 
 ---
 
