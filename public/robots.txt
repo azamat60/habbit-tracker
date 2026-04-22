@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
 
-# Update the domain below after deployment.
-Sitemap: https://your-domain.com/sitemap.xml
+Sitemap: https://www.azamatdev.com/habbit-tracker/sitemap.xml
